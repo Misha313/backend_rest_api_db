@@ -10,7 +10,6 @@ usersRouter.get('/users/:id', (req, res) => {
     .then((data) => {
       const users = JSON.parse(data);
       const { id } = req.params;
-      // eslint-disable-next-line no-underscore-dangle
       const user = users.find((item) => item._id === id);
       if (!user) {
         res.status(404).send({ message: 'пользователь с данным id не найден' });
