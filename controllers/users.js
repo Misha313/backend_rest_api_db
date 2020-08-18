@@ -19,7 +19,8 @@ module.exports.getUsers = (req, res) => {
 };
 
 module.exports.getUserById = (req, res) => {
-  User.findById(req.params.userId)
+  const { id } = req.params;
+  User.findById(id)
     .then((user) => {
       if (!user) {
         res.status(404).send({ message: 'пользователь с данным id не найден' });
@@ -31,3 +32,5 @@ module.exports.getUserById = (req, res) => {
       res.status(500).send({ message: err.message });
     });
 };
+
+
