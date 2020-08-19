@@ -4,8 +4,13 @@ module.exports.createUser = (req, res) => {
   const { name, about, avatar } = req.body;
 
   User.create({ name, about, avatar })
-    .then((user) => res.status(200).contentType('JSON').send(user))
-    .catch((err) => res.status(500).send({ massage: err }));
+    .then((user) => res.status(200).send(user))
+    .catch((err) => {
+      if (err.name === 'ValidationError') {
+        res.status(500).send({ massage: err.message });
+      }
+      res.status(400).send({ massage: err.message });
+    });
 };
 
 module.exports.getUsers = (req, res) => {
@@ -29,6 +34,9 @@ module.exports.getUserById = (req, res) => {
       }
     })
     .catch((err) => {
+      if (err.message.includes('Cast')) {
+        res.status(404).send({ message: 'пользователь с данным id не найден' });
+      }
       res.status(500).send({ message: err.message });
     });
 };
