@@ -30,7 +30,7 @@ module.exports.getUserById = (req, res) => {
     .then((user) => {
       if (!user) {
         res.status(404).send({ message: 'пользователь с данным id не найден' });
-        return
+        return;
       }
       res.send(user);
     })
