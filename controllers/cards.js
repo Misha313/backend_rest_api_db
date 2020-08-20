@@ -16,7 +16,7 @@ module.exports.createCard = (req, res) => {
 
   Card.create({ name, link, owner })
     .then((card) => res.send(card))
-    .catch((err) => res.status(400).send({ message: err.message }));
+    .catch((err) => res.send({ message: err.message }));
 };
 
 module.exports.deleteCardById = (req, res) => {

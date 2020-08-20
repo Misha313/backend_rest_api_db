@@ -7,9 +7,10 @@ module.exports.createUser = (req, res) => {
     .then((user) => res.status(200).send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        res.status(500).send({ massage: err.message });
+        res.status(400).send({ massage: err.message });
+        return;
       }
-      res.status(400).send({ massage: err.message });
+      res.status(500).send({ massage: err.message });
     });
 };
 
@@ -29,13 +30,14 @@ module.exports.getUserById = (req, res) => {
     .then((user) => {
       if (!user) {
         res.status(404).send({ message: 'пользователь с данным id не найден' });
-      } else {
-        res.send(user);
+        return
       }
+      res.send(user);
     })
     .catch((err) => {
-      if (err.message.includes('Cast')) {
-        res.status(404).send({ message: 'пользователь с данным id не найден' });
+      if (err.name === 'CastError') {
+        res.status(400).send({ message: err.message });
+        return;
       }
       res.status(500).send({ message: err.message });
     });
